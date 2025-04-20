@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T3N Secret City</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #0a0a0a;
+            color: #7a2fc2;
+        }
+
+        .logo {
+            margin-bottom: 100px;
+            margin-top: -50px;
+            animation: spin 30s linear infinite;
+        }
+
+        .logo img {
+            width: 300px;
+            height: auto;
+            filter: drop-shadow(0 0 10px #7a2fc2);
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .login-box {
+            background-color: rgba(10, 10, 10, 0.95);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(122, 47, 194, 0.3);
+            width: 300px;
+            text-align: center;
+        }
+
+        .login-box h2 {
+            margin-bottom: 30px;
+            color: #7a2fc2;
+            font-size: 20px;
+        }
+
+        .login-box input[type="password"], .login-box input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 30px 0;
+            border: 2px solid #7a2fc2;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #0a0a0a;
+            color: #7a2fc2;
+        }
+
+        .login-box input::placeholder {
+            color: #5c1f96;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #7a2fc2, #5c1f96);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .login-box button:disabled {
+            background: #444;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-box button:hover:enabled {
+            background: linear-gradient(135deg, #5c1f96, #7a2fc2);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(122, 47, 194, 0.3);
+        }
+
+        .login-box #error-message {
+            color: #ff4d4d;
+            display: none;
+            margin-top: 10px;
+            font-size: 12px;
+            animation: showError 0.5s ease-out;
+        }
+
+        @keyframes showError {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 16px;
+            color: #7a2fc2;
+            transition: color 0.3s ease;
+        }
+
+        .eye-icon:hover {
+            color: #5c1f96;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="logo.png" alt="Логотип">
+    </div>
+
+    <div class="login-box">
+        <h2>Введите пароль</h2>
+        <div style="position: relative;">
+            <input type="password" id="password" placeholder="Пароль" oninput="toggleButtonState()">
+            <span class="eye-icon" id="eye-icon" onclick="togglePassword()">👁️</span>
+        </div>
+        <button id="login-button" onclick="checkPassword()" disabled>Войти</button>
+        <p id="error-message" aria-live="assertive">Неверный пароль!</p>
+    </div>
+
+    <script>
+        const hashedPassword = "33c932c2dbf0fd3dcc9cd89f321c2a70f2517e95d41e95c366ba77f60ac06078";
+
+        let attemptCount = 0;
+        const MAX_ATTEMPTS = 5;
+        const LOCKOUT_TIME = 30000; // 30 seconds
+
+        async function checkPassword() {
+            const enteredPassword = document.getElementById("password").value;
+            const errorMessage = document.getElementById("error-message");
+
+            // Prevent multiple attempts
+            if (attemptCount >= MAX_ATTEMPTS) {
+                errorMessage.textContent = "Слишком много неудачных попыток. Попробуйте через несколько секунд.";
+                errorMessage.style.display = "block";
+                setTimeout(() => {
+                    attemptCount = 0;
+                    errorMessage.style.display = "none";
+                }, LOCKOUT_TIME);
+                return;
+            }
+
+            const hash = await hashPassword(enteredPassword);
+
+            if (hash === hashedPassword) {
+                window.location.href = "dashboard eng128412418923791829821472198478921478217489217412489124791123213.html";
+            } else {
+                attemptCount++;
+                errorMessage.style.display = "block";
+            }
+        }
+
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(byte => byte.toString(16).padStart(2, "0")).join("");
+        }
+
+        function togglePassword() {
+            const passwordField = document.getElementById("password");
+            const eyeIcon = document.getElementById("eye-icon");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.textContent = "🙈";
+            } else {
+                passwordField.type = "password";
+                eyeIcon.textContent = "👁️";
+            }
+        }
+
+        function toggleButtonState() {
+            const passwordField = document.getElementById("password");
+            const loginButton = document.getElementById("login-button");
+
+            loginButton.disabled = passwordField.value.trim() === "";
+        }
+    </script>
+</body>
+</html>
