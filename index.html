@@ -143,11 +143,11 @@
     </div>
 
     <script>
-        const hashedPassword = "33c932c2dbf0fd3dcc9cd89f321c2a70f2517e95d41e95c366ba77f60ac06078";
+        const hashedPassword = "5a62862d9efea03073a411ccfb76f3ed856bb785fb52d0a376f0bc439e59049a";
 
         let attemptCount = 0;
         const MAX_ATTEMPTS = 5;
-        const LOCKOUT_TIME = 30000; // 30 seconds
+        const LOCKOUT_TIME = 50000; // 50 seconds
 
         async function checkPassword() {
             const enteredPassword = document.getElementById("password").value;
@@ -155,7 +155,7 @@
 
             // Prevent multiple attempts
             if (attemptCount >= MAX_ATTEMPTS) {
-                errorMessage.textContent = "Слишком много неудачных попыток. Попробуйте через несколько секунд.";
+                errorMessage.textContent = "Слишком много неудачных попыток. Попробуйте через 50 секунд.";
                 errorMessage.style.display = "block";
                 setTimeout(() => {
                     attemptCount = 0;
